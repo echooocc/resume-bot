@@ -7,6 +7,13 @@ var builder = require('botbuilder');
 
 // Setup Restify Server
 var server = restify.createServer();
+
+// Serve a static web page
+server.get(/.*/, restify.serveStatic({
+    'directory': '.',
+    'default': 'index.html'
+}));
+
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log('%s listening to %s', server.name, server.url);
 });
@@ -19,11 +26,17 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
-//Create bot global actions
+//=========================================================
+// Create bot global actions
+//=========================================================
+
 bot.endConversationAction('goodbye', 'Goodbye :)', { matches: /^goodbye/i });
 bot.beginDialogAction('help', '/help', { matches: /^help/i });
 
-// Create bot dialogs
+//=========================================================
+// Create bot  dialog
+//=========================================================
+
 bot.dialog('/', [
     function(session) {
         // Send a greeting and display main menu.
