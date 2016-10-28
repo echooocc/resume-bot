@@ -23,7 +23,14 @@ var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
+
+//temporary fix 3.4.0 TyperError of undefined path in DefaultLocalizer
+var bot = new builder.UniversalBot(connector, {
+    localizerSettings: {
+        botLocalePath: "./locale",
+        defaultLocale: "en"
+    }
+});
 server.post('/api/messages', connector.listen());
 
 //=========================================================
@@ -39,6 +46,7 @@ bot.endConversationAction('goodbye', 'Goodbye :)', { matches: /^goodbye/i });
 bot.dialog('/', [
     function(session) {
         // Send a greeting and display main menu.
+        session.send("Hi! I am Echo's personal resume bot, I can show you more about Echo, and help you to schedule a meeting with the real Echo!");
         var card = new builder.HeroCard(session)
             .title("Echo's Resume Bot")
             .text("Everything you need to know about Echo!")
@@ -49,23 +57,13 @@ bot.dialog('/', [
                 builder.CardAction.dialogAction(session, "/experience", "experience", "Experience"),
                 builder.CardAction.dialogAction(session, "/skillset", "skillset", "Skill Set"),
                 builder.CardAction.dialogAction(session, "/shedule", "shedule", "Schedule A Meeting")
-            ])
-            .tap([
-                builder.CardAction.dialogAction(session, "/experience", "experience", "Experience"),
-                builder.CardAction.dialogAction(session, "/skillset", "skillset", "Skill Set"),
-                builder.CardAction.dialogAction(session, "/shedule", "shedule", "Schedule A Meeting")
             ]);
         var msg = new builder.Message(session).attachments([card]);
         session.send(msg);
-        session.send("Hi! I am Echo's personal resume bot, I can show you more about Echo, and help you to schedule a meeting with the real Echo!");
     },
     function(session, results) {
         // Display menu
-        // session.beginDialog('/menu');
-    },
-    function(session, results) {
-        // Always say goodbye
-        session.send("Byebye");
+        session.beginDialog('/menu');
     }
 ]);
 
