@@ -31,7 +31,6 @@ server.post('/api/messages', connector.listen());
 //=========================================================
 
 bot.endConversationAction('goodbye', 'Goodbye :)', { matches: /^goodbye/i });
-bot.beginDialogAction('help', '/help', { matches: /^help/i });
 
 //=========================================================
 // Create bot  dialog
@@ -45,15 +44,24 @@ bot.dialog('/', [
             .text("Everything you need to know about Echo!")
             .images([
                 builder.CardImage.create(session, "http://docs.botframework.com/images/demo_bot_image.png")
+            ])
+            .buttons([
+                builder.CardAction.dialogAction(session, "/experience", null, "Experience"),
+                builder.CardAction.dialogAction(session, "/skillset", null, "SkillSet"),
+                builder.CardAction.dialogAction(session, "/shedule", null, "Schedule"),
+            ])
+            .tap([
+                builder.CardAction.dialogAction(session, "/experience", null, "Experience Tap"),
+                builder.CardAction.dialogAction(session, "/skillset", null, "SkillSet Tap"),
+                builder.CardAction.dialogAction(session, "/shedule", null, "Schedule Tap"),
             ]);
         var msg = new builder.Message(session).attachments([card]);
         session.send(msg);
         session.send("Hi! I am Echo's personal resume bot, I can show you more about Echo, and help you to schedule a meeting with the real Echo!");
-        session.beginDialog('/help');
     },
     function(session, results) {
         // Display menu
-        session.beginDialog('/menu');
+        // session.beginDialog('/menu');
     },
     function(session, results) {
         // Always say goodbye
@@ -61,16 +69,9 @@ bot.dialog('/', [
     }
 ]);
 
-
-bot.dialog('/help', [
-    function(session) {
-        session.endDialog("Global commands that are available anytime:\n\n* menu - Exits a demo and returns to the menu.\n* goodbye - End this conversation.\n* help - Displays these commands.");
-    }
-]);
-
 bot.dialog('/menu', [
     function(session) {
-        builder.Prompts.choice(session, "What you want know about Echo?", "experience|skillset|shedule|(quit)");
+        builder.Prompts.choice(session, "What you want know about Echo?", "experience|skillset|shedule|");
     },
     function(session, results) {
         if (results.response && results.response.entity == 'experience') {
