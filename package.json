@@ -10,6 +10,10 @@
     "license": "ISC",
     "dependencies": {
         "botbuilder": "3.3.3",
-        "restify": "^4.2.0"
+        "restify": "4.2.0"
+    },
+    "engines": {
+        "node": "7.0.0",
+        "npm": "3.10.8"
     }
 }
