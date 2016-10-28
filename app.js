@@ -46,14 +46,14 @@ bot.dialog('/', [
                 builder.CardImage.create(session, "http://docs.botframework.com/images/demo_bot_image.png")
             ])
             .buttons([
-                builder.CardAction.dialogAction(session, "/experience", null, "Experience"),
-                builder.CardAction.dialogAction(session, "/skillset", null, "SkillSet"),
-                builder.CardAction.dialogAction(session, "/shedule", null, "Schedule"),
+                builder.CardAction.dialogAction(session, "/experience", "experience", "Experience"),
+                builder.CardAction.dialogAction(session, "/skillset", "skillset", "Skill Set"),
+                builder.CardAction.dialogAction(session, "/shedule", "shedule", "Schedule A Meeting")
             ])
             .tap([
-                builder.CardAction.dialogAction(session, "/experience", null, "Experience Tap"),
-                builder.CardAction.dialogAction(session, "/skillset", null, "SkillSet Tap"),
-                builder.CardAction.dialogAction(session, "/shedule", null, "Schedule Tap"),
+                builder.CardAction.dialogAction(session, "/experience", "experience", "Experience"),
+                builder.CardAction.dialogAction(session, "/skillset", "skillset", "Skill Set"),
+                builder.CardAction.dialogAction(session, "/shedule", "shedule", "Schedule A Meeting")
             ]);
         var msg = new builder.Message(session).attachments([card]);
         session.send(msg);
