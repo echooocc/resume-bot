@@ -59,24 +59,18 @@ bot.dialog('/', [
                 builder.CardAction.dialogAction(session, "/shedule", "shedule", "Schedule A Meeting")
             ]);
         var msg = new builder.Message(session).attachments([card]);
-        session.send(msg);
-    },
-    function(session, results) {
-        // Display menu
+        // session.send(msg);
         session.beginDialog('/menu');
     }
 ]);
 
 bot.dialog('/menu', [
     function(session) {
-        builder.Prompts.choice(session, "What you want know about Echo?", "experience|skillset|shedule|");
+        builder.Prompts.choice(session, "What you want know about Echo?", "experience|schedule");
     },
     function(session, results) {
         if (results.response && results.response.entity == 'experience') {
-            session.beginDialog("/experience", { company: "all" });
-        } else if (results.response && results.response.entity == '(quit)') {
-            // Exit the menu
-            session.endDialog();
+            session.beginDialog("/experience", { experience: "all" });
         } else {
             // Launch demo dialog
             session.beginDialog('/' + results.response.entity);
@@ -88,44 +82,55 @@ bot.dialog('/menu', [
     }
 ]).reloadAction('reloadMenu', null, { matches: /^menu|show menu/i });
 
-
 var experiences = {
     "all": {
         description: "Tell me more about Echo's Working Experience",
+        skillset: "aa",
         commands: { Architech: "architech", Xe: "xe", CatchChat: "catchchat", Wifarer: "wifarer", Blackberry: "blackberry" }
     },
     "architech": {
-        description: "Tell me more about Echo's Working Experience",
-        commands: { Xe: "xe", CatchChat: "catchchat", Wifarer: "wifarer", Blackberry: "blackberry" }
+        description: "Echo worked at Architech, a custom software engineering and design company, as a Web Developer. She helped in several projects with different clients by providing her web development expertise. She and her algie buddies made a distribution portal for Boars Head, and the service ss available for thousands users across America. She and her scrum buddys improved the PointClickCare’s health care cloud platform, which is used by the stuffs in several senior facilities across North America.",
+        skillset: "JavaScript, Gulp, Vagrant, Sass, UIkit, Elasticsearch, dotCMS, Java, JUnit, SQL, Visualforce",
+        commands: { More: "all" }
     },
     "xe": {
-        description: "Tell me more about Echo's Working Experience",
-        commands: { Architech: "architech", CatchChat: "catchchat", Wifarer: "wifarer", Blackberry: "blackberry" }
+        description: "Echo worked at XE.com, the online foreign exchange provider, as a UX Developer. She invloved in the UX design and web development of the xe.com website, and many other marketing pages. She also helped to build the currency plugin using XE.com API for DuckDuckGo. She optimized and improved the accessibility for xe.com, which viewed by thousands of users per day, ranked by Alexa as the top 600 of all sites worldwide by traffic.",
+        skillset: "PHP, JavaScript, HTML, Sass, AngularJs, NodeJs, Perl, Photoshop, Balsamiq mockup",
+        commands: { More: "all" }
     },
     "catchchat": {
-        description: "Tell me more about Echo's Working Experience",
-        commands: { Architech: "architech", Xe: "xe", Wifarer: "wifarer", Blackberry: "blackberry" }
+        description: "Echo worked as a web developer remotely for CatchChat, a Chinese version of snapchat message provider. She helped to build the internal web app by using the trendy tech stacks.",
+        skillset: "AngularJs, CoffeeScript, NodeJs, Express, Mocha, Chai, Less",
+        commands: { More: "all" }
     },
     "wifarer": {
-        description: "Tell me more about Echo's Working Experience",
-        commands: { Architech: "architech", Xe: "xe", CatchChat: "catchchat", Blackberry: "blackberry" }
+        description: "Echo worked as a IOS Developer Internal at Wifarer, a Victoria, BC based indoor positioning company. She involved in the IOS development of the Wifarer app, performed the QA testing role and wrote automated tests.",
+        skillset: "Objective-C, Xcode, Cucumber",
+        commands: { More: "all" }
     },
     "blackberry": {
-        description: "Tell me more about Echo's Working Experience",
-        commands: { Architech: "architech", Xe: "xe", CatchChat: "catchchat", Wifarer: "wifarer" }
+        description: "Echo worked as a Java Developer Intern at Blackberry, performed hands testing and automated testings.",
+        skillset: "Java, JUnit",
+        commands: { More: "all" }
     }
 }
 
 bot.dialog('/experience', [
     function(session, args) {
-        var company = experiences[args.company];
-        session.dialogData.commands = company.commands;
-        builder.Prompts.choice(session, company.description, company.commands);
-        // builder.Prompts.choice(session, "Tell me more about Echo's Working Experience", 'Architech|XE.com|CatchChat|Wifarer|Blackberry|(quit)');
+        var experience = experiences[args.experience];
+        session.dialogData.commands = experience.commands;
+        session.send(experience.description);
+        session.send('Keyowrd: ' + experience.skillset);
+        builder.Prompts.choice(session, "Please return to menu anytime by enter menu", experience.commands);
     },
     function(session, results) {
         var destination = session.dialogData.commands[results.response.entity];
-        session.replaceDialog("/experience", { company: destination });
+        session.replaceDialog("/experience", { experience: destination });
     }
-
 ]);
+
+bot.dialog('/schedule',
+    function(session) {
+        session.send('[display](https://calendly.com/chatwithecho)');
+    }
+);
