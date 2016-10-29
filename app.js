@@ -37,7 +37,7 @@ server.post('/api/messages', connector.listen());
 // Create bot global actions
 //=========================================================
 
-bot.endConversationAction('goodbye', 'Goodbye :)', { matches: /^goodbye/i });
+bot.endConversationAction('goodbye', 'Goodbye :)', { matches: /^bye/i });
 
 //=========================================================
 // Create bot  dialog
@@ -66,14 +66,13 @@ bot.dialog('/', [
 
 bot.dialog('/menu', [
     function(session) {
-        builder.Prompts.choice(session, "What you want know about Echo?", "experience|schedule");
+        builder.Prompts.choice(session, "What you want know about Echo?", { "Working Experience": "experience", "Schedule a Meeting": "schedule" }, { listStyle: builder.ListStyle["button"] });
     },
     function(session, results) {
-        if (results.response && results.response.entity == 'experience') {
+        if (results.response && results.response.entity == 'Working Experience') {
             session.beginDialog("/experience", { experience: "all" });
         } else {
-            // Launch demo dialog
-            session.beginDialog('/' + results.response.entity);
+            session.beginDialog('/schedule');
         }
     },
     function(session, results) {
@@ -85,7 +84,6 @@ bot.dialog('/menu', [
 var experiences = {
     "all": {
         description: "Tell me more about Echo's Working Experience",
-        skillset: "aa",
         commands: { Architech: "architech", Xe: "xe", CatchChat: "catchchat", Wifarer: "wifarer", Blackberry: "blackberry" }
     },
     "architech": {
@@ -120,8 +118,9 @@ bot.dialog('/experience', [
         var experience = experiences[args.experience];
         session.dialogData.commands = experience.commands;
         session.send(experience.description);
-        session.send('Keyowrd: ' + experience.skillset);
-        builder.Prompts.choice(session, "Please return to menu anytime by enter menu", experience.commands);
+        if (experience.skillset != null)
+            session.send('Skills: ' + experience.skillset);
+        builder.Prompts.choice(session, "Back to experience list", experience.commands);
     },
     function(session, results) {
         var destination = session.dialogData.commands[results.response.entity];
@@ -131,6 +130,6 @@ bot.dialog('/experience', [
 
 bot.dialog('/schedule',
     function(session) {
-        session.send('[display](https://calendly.com/chatwithecho)');
+        session.send('[Schdeule a real talk with Echo](https://calendly.com/chatwithecho)');
     }
 );
