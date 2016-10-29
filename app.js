@@ -47,6 +47,7 @@ bot.dialog('/', [
     function(session) {
         // Send a greeting and display main menu.
         session.send("Hi! I am Echo's personal resume bot, I can show you more about Echo, and help you to schedule a meeting with the real Echo!");
+        session.send("You can back to this main menu anytime by enter 'menu'.");
         var card = new builder.HeroCard(session)
             .title("Echo's Resume Bot")
             .text("Everything you need to know about Echo!")
@@ -66,7 +67,7 @@ bot.dialog('/', [
 
 bot.dialog('/menu', [
     function(session) {
-        builder.Prompts.choice(session, "What you want know about Echo?", { "Working Experience": "experience", "Schedule a Meeting": "schedule" }, { listStyle: builder.ListStyle["button"] });
+        builder.Prompts.choice(session, "What you want know about Echo?", { "Working Experience": "experience", "Schedule a Meeting": "schedule" });
     },
     function(session, results) {
         if (results.response && results.response.entity == 'Working Experience') {
@@ -83,33 +84,33 @@ bot.dialog('/menu', [
 
 var experiences = {
     "all": {
-        description: "Tell me more about Echo's Working Experience",
+        description: "Tell me more about Echo's working experience!",
         commands: { Architech: "architech", Xe: "xe", CatchChat: "catchchat", Wifarer: "wifarer", Blackberry: "blackberry" }
     },
     "architech": {
         description: "Echo worked at Architech, a custom software engineering and design company, as a Web Developer. She helped in several projects with different clients by providing her web development expertise. She and her algie buddies made a distribution portal for Boars Head, and the service ss available for thousands users across America. She and her scrum buddys improved the PointClickCare’s health care cloud platform, which is used by the stuffs in several senior facilities across North America.",
         skillset: "JavaScript, Gulp, Vagrant, Sass, UIkit, Elasticsearch, dotCMS, Java, JUnit, SQL, Visualforce",
-        commands: { More: "all" }
+        commands: { "More Experience": "all" }
     },
     "xe": {
         description: "Echo worked at XE.com, the online foreign exchange provider, as a UX Developer. She invloved in the UX design and web development of the xe.com website, and many other marketing pages. She also helped to build the currency plugin using XE.com API for DuckDuckGo. She optimized and improved the accessibility for xe.com, which viewed by thousands of users per day, ranked by Alexa as the top 600 of all sites worldwide by traffic.",
         skillset: "PHP, JavaScript, HTML, Sass, AngularJs, NodeJs, Perl, Photoshop, Balsamiq mockup",
-        commands: { More: "all" }
+        commands: { "More Experience": "all" }
     },
     "catchchat": {
         description: "Echo worked as a web developer remotely for CatchChat, a Chinese version of snapchat message provider. She helped to build the internal web app by using the trendy tech stacks.",
         skillset: "AngularJs, CoffeeScript, NodeJs, Express, Mocha, Chai, Less",
-        commands: { More: "all" }
+        commands: { "More Experience": "all" }
     },
     "wifarer": {
         description: "Echo worked as a IOS Developer Internal at Wifarer, a Victoria, BC based indoor positioning company. She involved in the IOS development of the Wifarer app, performed the QA testing role and wrote automated tests.",
         skillset: "Objective-C, Xcode, Cucumber",
-        commands: { More: "all" }
+        commands: { "More Experience": "all" }
     },
     "blackberry": {
         description: "Echo worked as a Java Developer Intern at Blackberry, performed hands testing and automated testings.",
         skillset: "Java, JUnit",
-        commands: { More: "all" }
+        commands: { "More Experience": "all" }
     }
 }
 
@@ -117,10 +118,16 @@ bot.dialog('/experience', [
     function(session, args) {
         var experience = experiences[args.experience];
         session.dialogData.commands = experience.commands;
-        session.send(experience.description);
-        if (experience.skillset != null)
+        if (experience.skillset != null) {
+            session.send(experience.description);
             session.send('Skills: ' + experience.skillset);
-        builder.Prompts.choice(session, "Back to experience list", experience.commands);
+            builder.Prompts.choice(session, "Back to experience list", experience.commands);
+        }
+        //return to main experinece menu /all 
+        else {
+            builder.Prompts.choice(session, experience.description, experience.commands);
+        }
+
     },
     function(session, results) {
         var destination = session.dialogData.commands[results.response.entity];
@@ -130,6 +137,6 @@ bot.dialog('/experience', [
 
 bot.dialog('/schedule',
     function(session) {
-        session.send('[Schdeule a real talk with Echo](https://calendly.com/chatwithecho)');
+        session.send('[Schdeule a talk with real Echo](https://calendly.com/chatwithecho)');
     }
 );
