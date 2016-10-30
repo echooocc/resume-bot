@@ -67,7 +67,7 @@ bot.dialog('/', [
 
 bot.dialog('/menu', [
     function(session) {
-        builder.Prompts.choice(session, "What you want know about Echo?", { "Working Experience": "experience", "Schedule a Meeting": "schedule" }, { listStyle: builder.ListStyle["list"] });
+        builder.Prompts.choice(session, "What you want know about Echo? You can enter 1 or 2 for selection", { "Working Experience": "experience", "Schedule a Meeting": "schedule" }, { listStyle: builder.ListStyle["list"] });
     },
     function(session, results) {
         if (results.response && results.response.entity == 'Working Experience') {
