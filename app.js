@@ -88,12 +88,12 @@ var experiences = {
         commands: { Architech: "architech", Xe: "xe", CatchChat: "catchchat", Wifarer: "wifarer", Blackberry: "blackberry" }
     },
     "architech": {
-        description: "Echo worked at Architech, a custom software engineering and design company, as a Web Developer. She helped in several projects with different clients by providing her web development expertise. She and her algie buddies made a distribution portal for Boar's Head, and the service ss available for thousands users across America. She and her scrum buddys improved the PointClickCare’s health care cloud platform, which is used by the stuffs in several senior facilities across North America.",
-        skillset: "JavaScript, Gulp, Vagrant, Sass, UIkit, Elasticsearch, dotCMS, Java, JUnit, SQL, Visualforce",
+        description: "Echo worked at Architech, a custom software engineering and design company, as a Web Developer. She helped in several projects with different clients by providing her web development expertise. She and her team made a distribution portal for Boar’s Head, and the service ss available for thousands of users across North America.  She and her team improved the PointClickCare’s health care cloud platform, which is used by staffs in several senior facilities across North America.",
+        skillset: "JavaScript, Gulp, Vagrant, Sass, UIkit, Elasticsearch, dotCMS, Java, JUnit, SQL, Visualforce, Agile",
         commands: { "More Experience": "all" }
     },
     "xe": {
-        description: "Echo worked at XE.com, the online foreign exchange provider, as a UX Developer. She invloved in the UX design and web development of the xe.com website, and many other marketing pages. She also helped to build the currency plugin using XE.com API for DuckDuckGo. She optimized and improved the accessibility for xe.com, which viewed by thousands of users per day, ranked by Alexa as the top 600 of all sites worldwide by traffic.",
+        description: "Echo worked at XE.com, the online foreign exchange provider, as a UX Developer. She was invloved in the UX design and web development of the xe.com website, and many other marketing pages. She also helped to build the currency plugin using XE.com API for DuckDuckGo. She optimized and improved the accessibility for xe.com, which viewed by thousands of users per day, ranked by Alexa as the top 600 of all sites worldwide by traffic.",
         skillset: "PHP, JavaScript, HTML, Sass, AngularJs, NodeJs, Perl, Photoshop, Balsamiq mockup",
         commands: { "More Experience": "all" }
     },
@@ -103,7 +103,7 @@ var experiences = {
         commands: { "More Experience": "all" }
     },
     "wifarer": {
-        description: "Echo worked as a IOS Developer Internal at Wifarer, a Victoria, BC based indoor positioning company. She involved in the IOS development of the Wifarer app, performed the QA testing role and wrote automated tests.",
+        description: "Echo worked as a IOS Developer Internal at Wifarer, a Victoria, BC based indoor positioning company. She was involved in the IOS development of the Wifarer app, performed the QA testing role and wrote automated tests.",
         skillset: "Objective-C, Xcode, Cucumber",
         commands: { "More Experience": "all" }
     },
