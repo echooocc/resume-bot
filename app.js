@@ -64,56 +64,145 @@ bot.dialog('/', [
 
 var experiences = {
   "all": {
-    description: "Tell me more about Echo's working experience!",
-    commands: { Architech: "architech", Xe: "xe", CatchChat: "catchchat", Wifarer: "wifarer", Blackberry: "blackberry" }
+    duty: "Tell me more about Echo's working experience!",
+    commands: { architech: "Architech", xe: "Xe", catchChat: "Catchchat", wifarer: "Wifarer", blackberry: "Blackberry" }
   },
   "architech": {
-    description: "Echo worked at Architech, a custom software engineering and design company, as a Web Developer. She helped in several projects with different clients by providing her web development expertise. She and her algie buddies made a distribution portal for Boar's Head, and the service ss available for thousands users across America. She and her scrum buddys improved the PointClickCare’s health care cloud platform, which is used by the stuffs in several senior facilities across North America.",
+    duty: "Echo worked at Architech, a custom software engineering and design company as a Web Developer. She helped in several projects with different clients by providing her web development expertise. She and her algie buddies made a distribution portal for Boar's Head, and the service ss available for thousands users across America. She and her scrum buddys improved the PointClickCare’s health care cloud platform, which is used by the stuffs in several senior facilities across North America.",
     skillset: "JavaScript, Gulp, Vagrant, Sass, UIkit, Elasticsearch, dotCMS, Java, JUnit, SQL, Visualforce",
-    commands: { "More Experience": "all" }
+    position: "Web Developer",
+    url: "http://www.architech.ca",
+    logoUrl: "http://www.architech.ca/images/4712cf6e.architech_logo.png",
   },
   "xe": {
-    description: "Echo worked at XE.com, the online foreign exchange provider, as a UX Developer. She invloved in the UX design and web development of the xe.com website, and many other marketing pages. She also helped to build the currency plugin using XE.com API for DuckDuckGo. She optimized and improved the accessibility for xe.com, which viewed by thousands of users per day, ranked by Alexa as the top 600 of all sites worldwide by traffic.",
+    duty: "Echo worked at XE.com, the online foreign exchange provider, as a UX Developer. She invloved in the UX design and web development of the xe.com website, and many other marketing pages. She also helped to build the currency plugin using XE.com API for DuckDuckGo. She optimized and improved the accessibility for xe.com, which viewed by thousands of users per day, ranked by Alexa as the top 600 of all sites worldwide by traffic.",
     skillset: "PHP, JavaScript, HTML, Sass, AngularJs, NodeJs, Perl, Photoshop, Balsamiq mockup",
-    commands: { "More Experience": "all" }
+    position: "Web Developer",
+    url: "http://www.architech.ca",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/5/55/XE_Corporation_logo.png",
   },
   "catchchat": {
-    description: "Echo worked as a web developer remotely for CatchChat, a Chinese version of snapchat message provider. She helped to build the internal web app by using the trendy tech stacks.",
-    skillset: "AngularJs, CoffeeScript, NodeJs, Express, Mocha, Chai, Less",
-    commands: { "More Experience": "all" }
+    duty: "Echo worked as a web developer remotely for CatchChat, a Chinese version of snapchat message provider. She helped to build the internal web app by using the trendy tech stacks.",
+    skillset: "AngularJs, CoffeeScript, NodeJs, Express, Moqcha, Chai, Less",
+    position: "Front End Developer",
+    url: "http://catchchat.me",
+    logoUrl: "https://dn-catchinc.qbox.me/catchchat/appicon.png",
   },
   "wifarer": {
-    description: "Echo worked as a IOS Developer Internal at Wifarer, a Victoria, BC based indoor positioning company. She involved in the IOS development of the Wifarer app, performed the QA testing role and wrote automated tests.",
+    duty: "Echo worked as a IOS Developer Internal at Wifarer, a Victoria, BC based indoor positioning company. She involved in the IOS development of the Wifarer app, performed the QA testing role and wrote automated tests.",
     skillset: "Objective-C, Xcode, Cucumber",
-    commands: { "More Experience": "all" }
+    position: "IOS Developer Intern",
+    url: "http://www.wifarer.com",
+    logoUrl: "http://www.wifarer.com/files/large/wifarer-logo.png",
   },
   "blackberry": {
-    description: "Echo worked as a Java Developer Intern at Blackberry, performed hands testing and automated testings.",
+    duty: "Echo worked as a Java Developer Intern at Blackberry, performed hands testing and automated testings.",
     skillset: "Java, JUnit",
-    commands: { "More Experience": "all" }
+    position: "Software Developer Intern",
+    url: "http://ca.blackberry.com/home.html",
+    logoUrl: "http://tech4world.net/wp-content/uploads/2011/08/blackberry_logo__black.jpg",
   }
 }
 
 bot.dialog('/experience', [
   function(session, args) {
-    var experience = experiences[args.data];
-    session.dialogData.commands = experience.commands;
-    if (experience.skillset != null) {
-      session.send(experience.description);
-      session.send('Skills: ' + experience.skillset);
-      builder.Prompts.choice(session, "Back to experience list", experience.commands);
-    }
-    //return to main experinece menu /all 
-    else {
-      builder.Prompts.choice(session, experience.description, experience.commands);
-    }
-
-  },
-  function(session, results) {
-    var destination = session.dialogData.commands[results.response.entity];
-    session.replaceDialog("/experience", { experience: destination });
+    var card = new builder.HeroCard(session)
+      .title("Experience")
+      .text("Everything you need to know about Echo!")
+      .images([
+        builder.CardImage.create(session, "http://docs.botframework.com/images/demo_bot_image.png")
+      ])
+      .buttons([
+        builder.CardAction.dialogAction(session, "architech", "architech", "Architech"),
+        builder.CardAction.dialogAction(session, "xe", "xe", "Xe"),
+        builder.CardAction.dialogAction(session, "catchchat", "catchchat", "CatchChat"),
+        builder.CardAction.dialogAction(session, "wifarer", "wifarer", "Wifarer"),
+        builder.CardAction.dialogAction(session, "blackberry", "blackberry", "Blackberry")
+      ]);
+    var msg = new builder.Message(session).attachments([card]);
+    session.send(msg);
   }
 ]);
+
+bot.dialog('/architech',
+  function(session) {
+    var company = experiences.architech;
+    var card = new builder.ThumbnailCard(session)
+      .title("Architech")
+      .subtitle(company.position)
+      .text(company.duty)
+      .images([
+        builder.CardImage.create(session, company.logoUrl)
+      ])
+      .tap(builder.CardAction.openUrl(session, company.url));
+    var msg = new builder.Message(session).attachments([card]);
+    session.send(msg);
+  }
+);
+
+bot.dialog('/xe',
+  function(session) {
+    var company = experiences.xe;
+    var card = new builder.ThumbnailCard(session)
+      .title("Xe.com")
+      .subtitle(company.position)
+      .text(company.duty)
+      .images([
+        builder.CardImage.create(session, company.logoUrl)
+      ])
+      .tap(builder.CardAction.openUrl(session, company.url));
+    var msg = new builder.Message(session).attachments([card]);
+    session.send(msg);
+  }
+);
+
+bot.dialog('/catchchat',
+  function(session) {
+    var company = experiences.catchchat;
+    var card = new builder.ThumbnailCard(session)
+      .title("CatchChat")
+      .subtitle(company.position)
+      .text(company.duty)
+      .images([
+        builder.CardImage.create(session, company.logoUrl)
+      ])
+      .tap(builder.CardAction.openUrl(session, company.url));
+    var msg = new builder.Message(session).attachments([card]);
+    session.send(msg);
+  }
+);
+
+bot.dialog('/wifarer',
+  function(session) {
+    var company = experiences.wifarer;
+    var card = new builder.ThumbnailCard(session)
+      .title("Wifarer")
+      .subtitle(company.position)
+      .text(company.duty)
+      .images([
+        builder.CardImage.create(session, company.logoUrl)
+      ])
+      .tap(builder.CardAction.openUrl(session, company.url));
+    var msg = new builder.Message(session).attachments([card]);
+    session.send(msg);
+  }
+);
+
+bot.dialog('/blackberry',
+  function(session) {
+    var company = experiences.blackberry;
+    var card = new builder.ThumbnailCard(session)
+      .title("Blackberry")
+      .subtitle(company.position)
+      .text(company.duty)
+      .images([
+        builder.CardImage.create(session, company.logoUrl)
+      ])
+      .tap(builder.CardAction.openUrl(session, company.url));
+    var msg = new builder.Message(session).attachments([card]);
+    session.send(msg);
+  }
+);
 
 bot.dialog('/schedule',
   function(session) {
@@ -123,3 +212,8 @@ bot.dialog('/schedule',
 
 bot.beginDialogAction('experience', '/experience');
 bot.beginDialogAction('schedule', '/schedule');
+bot.beginDialogAction('architech', '/architech');
+bot.beginDialogAction('xe', '/xe');
+bot.beginDialogAction('catchchat', '/catchchat');
+bot.beginDialogAction('wifarer', '/wifarer');
+bot.beginDialogAction('blackberry', '/blackberry');
