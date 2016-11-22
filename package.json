@@ -1,19 +1,19 @@
 {
-    "name": "bots",
-    "version": "1.0.0",
-    "description": "Echo's resume bot in Node.js on Microsoft Bot Framework",
-    "main": "app.js",
-    "scripts": {
-        "start": "node app.js"
-    },
-    "author": "Echo Yu",
-    "license": "ISC",
-    "dependencies": {
-        "botbuilder": "^3.3.3",
-        "restify": "4.2.0"
-    },
-    "engines": {
-        "node": "7.0.0",
-        "npm": "3.10.8"
-    }
+  "name": "bots",
+  "version": "1.0.0",
+  "description": "Echo's resume bot in Node.js on Microsoft Bot Framework",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Echo Yu",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.4.4",
+    "restify": "4.2.0"
+  },
+  "engines": {
+    "node": "7.0.0",
+    "npm": "3.10.8"
+  }
 }
