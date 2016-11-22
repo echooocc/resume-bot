@@ -49,9 +49,6 @@ bot.dialog('/', [
     var card = new builder.HeroCard(session)
       .title("Echo's Resume Bot")
       .text("Everything you need to know about Echo!")
-      .images([
-        builder.CardImage.create(session, "http://docs.botframework.com/images/demo_bot_image.png")
-      ])
       .buttons([
         builder.CardAction.dialogAction(session, "experience", "all", "Experience"),
         builder.CardAction.dialogAction(session, "schedule", "/schedule", "Schedule A Meeting")
@@ -108,10 +105,7 @@ bot.dialog('/experience', [
   function(session, args) {
     var card = new builder.HeroCard(session)
       .title("Experience")
-      .text("Everything you need to know about Echo!")
-      .images([
-        builder.CardImage.create(session, "http://docs.botframework.com/images/demo_bot_image.png")
-      ])
+      .subtitle("Echo's past working experiences")
       .buttons([
         builder.CardAction.dialogAction(session, "architech", "architech", "Architech"),
         builder.CardAction.dialogAction(session, "xe", "xe", "Xe"),
